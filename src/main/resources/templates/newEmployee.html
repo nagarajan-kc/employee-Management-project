@@ -5,7 +5,24 @@
     <meta charset="ISO-8859-1">
     <title>Employee Details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-</head>
+<style>
+
+</style>
+  <script>
+        window.onload = function() {
+            var dateField = document.getElementById("dob");
+            var today = new Date();
+            var year = today.getFullYear();
+            var maxDate = 2005 + "-12-31";
+            dateField.setAttribute("max", maxDate);
+        };
+ function clearValidationMessage(inputElement) {
+		console.log(inputElement);
+        inputElement.nextElementSibling.textContent = '';
+
+  }
+    </script>
+    </head>
 
 <body>
     <div class="container">
@@ -13,37 +30,70 @@
         
         <br>
             <br>
-        <form action="#" th:action="@{/saveEmployee}" th:object="${employee}" method="POST">
-            <input type="text" th:field="*{name}" placeholder="Employee  Name" class="form-control mb-4 col-4">
+        <form  id="add" action="#" th:action="@{/saveEmployee}" th:object="${employee}" method="POST" name="EmployeeForm"  >
+			
+			<label for="Employee Id">Employee Id:</label>
+			<input type="text" th:field="*{id}" onkeypress="value=value.toUpperCase()"  onkeyup="clearValidationMessage(this)" class="form-control mb-4 col-4 " id="id" required /> 
+			<p th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class= " alert-danger d-flex align-items-center"  style="width: 70%;">IdError</p>
+			
+			<br>
+			
+			<label for="Employee Name" >Employee Name:</label>
+            <input type="text"  th:field="*{name}" id="name" name="Employee Name" onkeyup="clearValidationMessage(this)" class="form-control mb-4 col-4" required/>
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class=" alert-danger d-flex align-items-center" role="alert" style="width: 70%;">Name Error</p>
+            <br>
+            
+             <label for="gender" id="gender" >Gender:</label>
+             <input type="radio" th:field="*{gender}" value="Male" required/> Male
+             <input type="radio" th:field="*{gender}" value="Female"  required/> Female
+                     <!--    <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="alert alert-danger" style="width: 30%;">Gender Error</p> -->
 
-             <label for="gender">Gender:</label>
-             <input type="radio" th:field="*{gender}" value="Male" /> Male
-             <input type="radio" th:field="*{gender}" value="Female" /> Female
-            <!-- <input type="radio" name="gender"  value="male" > Male <input type="radio" name="gender" value="female"> Female -->
+            <!-- <input type="ra
+            dio" name="gender"  value="male" > Male <input type="radio" name="gender" value="female"> Female -->
 
             <br>
                 <br>
                 
-            <input type="date" th:field="*{dob}"  class="form-control mb-4 col-4">
+                <label for="Employee Dob" required>Employee Dob:</label>
+            <input type="date" th:field="*{dob}" id="dob" name="dob" onclick="clearValidationMessage(this)"  class="form-control mb-4 col-4" required/>
+                      <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}" class="alert-danger d-flex align-items-center" style="width: 70%;" >Date of Birth Error</p>
 
-            <!-- <input type="text" th:field="*{designation}" placeholder="Employee Designation" class="form-control mb-4 col-4" > -->
-
-            <tr>
+<!--<tr>
+				  <label for="Designation">Designation:</label>
                 <td>
-                   <select th:field="*{designation}"  class="form-control mb-4 col-4">
-                    <option value="">Select the  Designation</option>
+                   <select th:field="*{designation}" id="designation" class="form-control mb-4 col-4" />
+                   <option value="" id="designation" >Select the  Designation</option>
                     <option th:value="WebDevloper" th:text="WebDevloper"></option>
                       <option th:value="FlutterDeveloper" th:text="FlutterDeveloper"></option>
                       <option th:value="AngularDeveloper" th:text="AngularDeveloper"></option>
-                      <option th:value="PythonDeveloper" th:text="PythonDeveloper"></option>
+                      <option th:value="PythonDeveloper" th:text="PythonDeveloper"></option> 
                    </select>
+                      <p th:if="${#fields.hasErrors('designation')}" th:errors="*{designation}" class="alert alert-danger" style="width: 40%;">Designation Error</p>
                 </td>
-            </tr>
-            <input type="number" th:field="*{salary}" placeholder="Employee Salary" class="form-control mb-4 col-4">
+            </tr>   -->
+            <br>
+            <label for="Designation">Designation:</label>
+            
+        <select th:field="*{designation}" id="designation" class="form-control mb-4 col-4" required/>
+        <option value="" id="designation" >Select the  Designation</option>
+        <option  th:each="designation : ${designation}"  th:value="${designation.code}"  th:text="${designation.field}" >
+		</option>
+        
 
+    </select>
+        <span th:if="${#fields.hasErrors('designation')}" th:errors="*{designation}" class="alert-danger d-flex align-items-center" style="width: 40%;">Designation Error</span>
+
+        <br/>     
+            
+              <label for="Salary">Salary:</label>
+      <!--      <input type="text" th:field="*{salary}" id="salary"    class="form-control mb-4 col-4"  required/> -->
+      <input th:var="salaryType" th:field="*{salary}" id="salary"   onkeyup="clearValidationMessage(this)" class="form-control mb-4 col-4" required>
+  <p th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" class="alert-danger d-flex align-items-center" style="width: 40%;">Salary Error</p>
+            <br>
+            
             
 
-            <button type="submit" class="btn btn-info col-2"> Save Employee</button>
+            <button type="submit" class="btn btn-primary mb-2" id="save" style="width: 20%"> Save </button>
         </form>
 
         <hr>

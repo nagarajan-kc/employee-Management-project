@@ -1,18 +1,24 @@
 package com.nic.employee.Service;
 
+
 import java.util.List;
 
 import com.nic.employee.Entity.Employee;
+import com.nic.employee.designation.Designation;
 
 
 
 public interface EmployeeService {
-    List<Employee> getAllEmployees();
-    
-    void saveEmployee(Employee employee);
+	 List<Employee> getAllEmployees();
+	    
+	 void saveEmployee(Employee employee );
 
-    Employee getEmployeeById(int id);
+	    Employee getEmployeeById(String id);
 
-    void deleteEmployeeById(int id);
+	    int deleteEmployeeById(String id);
+	    
+	    List<Designation> getAllDesignation() ;
+
+		List<Designation> findAll();
 
 }
