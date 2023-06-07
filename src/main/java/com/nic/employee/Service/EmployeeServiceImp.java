@@ -1,5 +1,7 @@
 package com.nic.employee.Service;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.lang.Nullable;
 
 import com.nic.employee.Entity.Employee;
 import com.nic.employee.Repository.EmployeeRepository;
@@ -22,15 +26,33 @@ public class EmployeeServiceImp implements EmployeeService {
 	    @Autowired
 	    private JdbcTemplate jdbcTemplate;
 	    
-	    private final String SQL_GET_ALL_EMPLOYEE = "Select e.id,e.name,e.dob,e.gender,e.salary,d.field From employee e Join designation d ON e.designation = d.code";
+//	    private final String SQL_GET_ALL_EMPLOYEE = "Select e.id,e.name,e.dob,e.gender,e.salary,d.field From employee e , designation d Where e.designation = d.code";
 
     @Override
     public List < Employee > getAllEmployees() {
-//       String query = "Select employee.id,employee.name,employee.dob,employee.gender,employee.salary,designation.field From employee Join designation ON employee.designation = designation.code";
+       String query = "Select employee.id,employee.name,employee.dob,employee.gender,employee.salary,designation.field From employee Join designation ON employee.designation = designation.code";
  
 //    List<Employee> employee = jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Employee.class)); 
-    return jdbcTemplate.query(SQL_GET_ALL_EMPLOYEE, new BeanPropertyRowMapper<>(Employee.class));
-    }
+//    return jdbcTemplate.query(this.SQL_GET_ALL_EMPLOYEE, new BeanPropertyRowMapper<>(Employee.class));
+    	
+    	List<Employee> results = jdbcTemplate.query(query, new RowMapper<Employee>() {
+
+			@Override
+			@Nullable
+			public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+				 Employee employee = new Employee();
+			      employee.setId(rs.getString("id"));
+			      employee.setName(rs.getString("name"));
+			      employee.setGender(rs.getString("gender"));
+			      employee.setDob(rs.getString("dob"));
+			    employee.setSalary(rs.getLong("salary"));
+			    employee.setDesignation(rs.getString("field"));
+			        return employee;
+				
+			}});
+		return results;
+		}
+    	
 
     @Override
     public void saveEmployee(Employee employee) {

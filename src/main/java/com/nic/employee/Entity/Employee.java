@@ -1,7 +1,8 @@
 package com.nic.employee.Entity;
 
 //import java.sql.Date;
-import java.time.LocalDate;
+//import java.sql.Date;
+//import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -36,7 +37,7 @@ public class Employee {
 	
     @NotNull(message = "Date of birth is required")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate dob;
+	private String dob;
 	
 	@NotBlank(message = "Please Give The  Designation")
     @NotNull(message = "Please Give The  Designation")
@@ -70,12 +71,12 @@ public class Employee {
 		this.gender = gender;
 	}
 
-	public LocalDate getDob() {
+	public String getDob() {
 		return dob;
 	}
 
-	public void setDob(LocalDate dob) {
-		this.dob = dob;
+	public void setDob(String date) {
+		this.dob = date;
 	}
 
 	public String getDesignation() {
