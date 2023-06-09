@@ -30,7 +30,7 @@ public class EmployeeServiceImp implements EmployeeService {
 
     @Override
     public List < Employee > getAllEmployees() {
-       String query = "Select employee.id,employee.name,employee.dob,employee.gender,employee.salary,designation.field From employee Join designation ON employee.designation = designation.code";
+       String query = "Select employee.id,employee.name,employee.dob,employee.gender,employee.salary,designation.field From employee Join designation ON employee.designation = designation.code Order BY employee.id";
  
 //    List<Employee> employee = jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Employee.class)); 
 //    return jdbcTemplate.query(this.SQL_GET_ALL_EMPLOYEE, new BeanPropertyRowMapper<>(Employee.class));
@@ -45,7 +45,7 @@ public class EmployeeServiceImp implements EmployeeService {
 			      employee.setName(rs.getString("name"));
 			      employee.setGender(rs.getString("gender"));
 			      employee.setDob(rs.getString("dob"));
-			    employee.setSalary(rs.getLong("salary"));
+			    employee.setSalary(rs.getDouble("salary"));
 			    employee.setDesignation(rs.getString("field"));
 			        return employee;
 				

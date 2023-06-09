@@ -44,8 +44,8 @@
             <br>
             
              <label for="gender" id="gender" >Gender:</label>
-             <input type="radio" th:field="*{gender}" value="Male" required/> Male
-             <input type="radio" th:field="*{gender}" value="Female"  required/> Female
+             <input type="radio" th:field="*{gender}" value="Male" required > Male
+             <input type="radio" th:field="*{gender}" value="Female"  required> Female
                      <!--    <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="alert alert-danger" style="width: 30%;">Gender Error</p> -->
 
             <!-- <input type="ra
@@ -54,7 +54,7 @@
             <br>
                 <br>
                 
-                <label for="Employee Dob" required>Employee Dob:</label>
+                <label for="Employee Dob" required >Employee Dob:</label>
             <input type="date" th:field="*{dob}" id="dob" name="dob" onclick="clearValidationMessage(this)"  class="form-control mb-4 col-4" required/>
                       <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}" class="alert-danger d-flex align-items-center" style="width: 70%;" >Date of Birth Error</p>
 
@@ -74,7 +74,7 @@
             <br>
             <label for="Designation">Designation:</label>
             
-        <select th:field="*{designation}" id="designation" class="form-control mb-4 col-4" required/>
+        <select th:field="*{designation}" id="designation" class="form-control mb-4 col-4" required>
         <option value="" id="designation" >Select the  Designation</option>
         <option  th:each="designation : ${designation}"  th:value="${designation.code}"  th:text="${designation.field}" >
 		</option>

@@ -1,7 +1,7 @@
 package com.nic.employee.Controller;
 
-
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
 import com.nic.employee.Entity.Employee;
 import com.nic.employee.Service.EmployeeService;
 import com.nic.employee.designation.Designation;
@@ -21,7 +20,8 @@ import jakarta.validation.Valid;
 
 @Controller
 public class EmployeeController {
-	@Autowired
+
+    @Autowired
     private EmployeeService employeeService;
     
     
@@ -48,6 +48,7 @@ public class EmployeeController {
     	if (bindingResult.hasErrors()) {  
     		  List<Designation> designation = employeeService.findAll();
     	        model.addAttribute("designation", designation);
+    	       
              return "newEmployee";
          }
        employeeService.saveEmployee(employee);

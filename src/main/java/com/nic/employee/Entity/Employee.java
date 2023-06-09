@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 //import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
 //import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -43,10 +44,11 @@ public class Employee {
     @NotNull(message = "Please Give The  Designation")
 	private String designation;
 	
-	@NotNull(message = "Please enter a valid salary")
-    @Min(value=10000, message = "Salary must be atleast 10000")
-	private long salary;
-
+	@NotNull(message = "Please enter salary")
+	@Min(value=10000, message = "Salary must be atleast 10000.00")
+	@Max(value=100000, message = "Salary should not be greater than 100000.00")
+	private Double salary;
+	
 	public String getId() {
 		return id;
 	}
@@ -87,13 +89,15 @@ public class Employee {
 		this.designation = designation;
 	}
 
-	public long getSalary() {
+	public Double getSalary() {
 		return salary;
 	}
 
-	public void setSalary(long salary) {
+	public void setSalary(Double salary) {
 		this.salary = salary;
 	}
+
+	
 	
 
 	
