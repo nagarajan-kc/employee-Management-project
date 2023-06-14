@@ -63,12 +63,17 @@ public class EmployeeController {
   model.addAttribute("designation", designation);
   return "updateemployee";
  }
-
- @GetMapping("/deleteEmployee/{id}")
-public String deleteEmployee(@PathVariable (value = "id") String id) {
  
- this.employeeService.deleteEmployeeById(id);
- return "redirect:/Employee";
+ @GetMapping("/delete/{id}")
+ public String showDeleteConfirmation(@PathVariable("id") String  id, Model model) {
+     Employee employee = employeeService.getEmployeeById(id);
+     model.addAttribute("employee", employee);
+     return "deleteconfirmation";
+ }
 
-}
+ @PostMapping("/delete/{id}")
+ public String deleteEmployee(@PathVariable("id") String id) {
+     employeeService.deleteEmployeeById(id);
+     return "redirect:/Employee";
+ }
 }
