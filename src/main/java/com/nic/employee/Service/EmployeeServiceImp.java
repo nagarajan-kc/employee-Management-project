@@ -11,9 +11,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.nic.employee.Entity.Employee;
+import com.nic.employee.Entity.User;
 import com.nic.employee.Repository.EmployeeRepository;
+import com.nic.employee.Repository.UserRepository;
 import com.nic.employee.designation.Designation;
 
 
@@ -23,18 +26,17 @@ public class EmployeeServiceImp implements EmployeeService {
 	 @Autowired
 	    private EmployeeRepository employeeRepository;
 	    
+	 @Autowired
+	    private UserRepository userRepository;
+	 
 	    @Autowired
 	    private JdbcTemplate jdbcTemplate;
 	    
-//	    private final String SQL_GET_ALL_EMPLOYEE = "Select e.id,e.name,e.dob,e.gender,e.salary,d.field From employee e , designation d Where e.designation = d.code";
 
     @Override
     public List < Employee > getAllEmployees() {
        String query = "Select employee.id,employee.name,employee.dob,employee.gender,employee.salary,designation.field From employee Join designation ON employee.designation = designation.code Order BY employee.id";
- 
-//    List<Employee> employee = jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Employee.class)); 
-//    return jdbcTemplate.query(this.SQL_GET_ALL_EMPLOYEE, new BeanPropertyRowMapper<>(Employee.class));
-    	
+
     	List<Employee> results = jdbcTemplate.query(query, new RowMapper<Employee>() {
 
 			@Override
@@ -89,6 +91,17 @@ public class EmployeeServiceImp implements EmployeeService {
 		String query ="SELECT * FROM designation";
         List<Designation> designation = jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Designation.class));
         return designation;
+	}
+
+//
+	@Override
+	public void save(User user) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    	String encryptedPassword = passwordEncoder.encode(user.getPassword());
+    	user.setPassword(encryptedPassword);
+		userRepository.save(user);	
+	
+	
 	}
 
 	

@@ -1,12 +1,10 @@
 package com.nic.employee.Service;
 
-
 import java.util.List;
 
 import com.nic.employee.Entity.Employee;
+import com.nic.employee.Entity.User;
 import com.nic.employee.designation.Designation;
-
-
 
 public interface EmployeeService {
 	 List<Employee> getAllEmployees();
@@ -21,4 +19,6 @@ public interface EmployeeService {
 
 		List<Designation> findAll();
 
+		void save(User user);
+		
 }

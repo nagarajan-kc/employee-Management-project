@@ -11,8 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nic.employee.Entity.Employee;
+import com.nic.employee.Entity.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.nic.employee.Repository.DesignationRepository;
+import com.nic.employee.Repository.EmployeeRepository;
+import com.nic.employee.Repository.UserRepository;
 import com.nic.employee.Service.EmployeeService;
 import com.nic.employee.designation.Designation;
 
@@ -24,7 +32,73 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
     
+    @Autowired
+	 private DesignationRepository designationRepository;
     
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private EmployeeRepository employeeRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    @GetMapping("/Nic")
+    public String viewLogInPage() {
+        return "login";
+    }
+    @GetMapping("/empLogin")
+    public String viewEmployeeLogInPage() {
+        return "employeelogin";
+    }
+    
+    @PostMapping("/login")
+    public String processLogin(Model model,User user) {
+        User savedUser = userRepository.findByUsername(user.getUsername());
+        
+        if (savedUser != null && passwordEncoder.matches(user.getPassword(), savedUser.getPassword())) {
+            return "redirect:/Employee";
+        }
+
+        else {
+            model.addAttribute("error", "Invalid username or password");
+            return "redirect:/Nic";
+        }
+    }
+    
+    @PostMapping("/employeelogin")
+    public String login( Model model,User user) {
+    	
+        User suser = userRepository.findByUsername(user.getUsername());
+        if (suser != null && passwordEncoder.matches(user.getPassword(), suser.getPassword())) {
+        	
+            Employee employee = employeeRepository.findById(suser.getId()).orElse(null);
+            if (employee != null) {
+            	Designation department = designationRepository.findById(employee.getDesignation()).orElse(null);
+                if (department != null) {
+                    employee.setDesignation(department.getField());
+                }
+            	 model.addAttribute("listEmployees", employeeService.getAllEmployees());
+                model.addAttribute("employee", employee);
+                return "employee"; 
+            }
+        }
+        return "redirect:/empLogin"; 
+    }
+    
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+    	User user= new User();
+    	model.addAttribute("user", user);
+        return "register";
+    }
+    
+    @PostMapping("/register")
+    public String registerUser(@ModelAttribute("user") User user) {
+    	employeeService.save(user);
+        return "redirect:/empLogin";
+        }
    
     @GetMapping("/Employee")
     public String viewHomePage(Model model) {
