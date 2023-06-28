@@ -1,11 +1,14 @@
 package com.nic.employee.Entity;
 
+import java.time.LocalDateTime;
+
 //import java.sql.Date;
 //import java.sql.Date;
 //import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.Column;
 //import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 //import jakarta.persistence.GeneratedValue;
@@ -48,6 +51,43 @@ public class Employee {
 	@Min(value=10000, message = "Salary must be atleast 10000.00")
 	@Max(value=100000, message = "Salary should not be greater than 100000.00")
 	private Double salary;
+	
+    @DateTimeFormat(pattern = "yyyy")
+	private String startDate;
+
+    @DateTimeFormat(pattern = "yyyy")
+	private String enddate;
+    
+    @Column
+    private String adminname;
+    
+	public String getAdminname() {
+		return adminname;
+	}
+
+	public void setAdminname(String adminname) {
+		this.adminname = adminname;
+	}
+
+	public String getEnddate() {
+		return enddate;
+	}
+
+	public void setEnddate(String enddate) {
+		this.enddate = enddate;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	@Column
+    private LocalDateTime createdAt;
+  
 	
 	public String getId() {
 		return id;
@@ -96,6 +136,16 @@ public class Employee {
 	public void setSalary(Double salary) {
 		this.salary = salary;
 	}
+
+
+	public LocalDateTime getCreatedAt() {
+		return this.createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+	
 
 	
 	

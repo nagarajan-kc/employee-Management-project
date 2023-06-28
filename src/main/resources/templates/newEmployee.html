@@ -71,7 +71,10 @@
                       <p th:if="${#fields.hasErrors('designation')}" th:errors="*{designation}" class="alert alert-danger" style="width: 40%;">Designation Error</p>
                 </td>
             </tr>   -->
+       
             <br>
+            <label for="Admin Name"> Admin Name:</label>
+            <input  type="text"  th:field="*{adminname}" id="adminname" name="adminname"  class="form-control mb-4 col-4" required/>
             <label for="Designation">Designation:</label>
             
         <select th:field="*{designation}" id="designation" class="form-control mb-4 col-4" required>

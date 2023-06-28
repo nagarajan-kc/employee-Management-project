@@ -1,28 +1,56 @@
 package com.nic.employee.Entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="historyOfEmployee")
 public class HistoryOfEmployee {
 
 	@Id 
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+	
+	@Column
+	private String empid;
 	
 	@Column
 	private String name;
 	
-	public String getId() {
-		return id;
+	@Column
+	private String adminName;
+	
+	
+    @Column
+	private String startDate;
+	 
+    @Column
+	private String endDate;
+    
+
+	@Column
+    private LocalDateTime updateDate;
+    
+    @Column
+	private String designation;
+    
+	public String getDesignation() {
+		return designation;
 	}
 
 
-	public void setId(String id) {
-		this.id = id;
+	public void setDesignation(String designation) {
+		this.designation = designation;
 	}
+
 
 
 	public String getName() {
@@ -65,27 +93,36 @@ public class HistoryOfEmployee {
 	}
 
 
-	public String getUpdateDate() {
+	public LocalDateTime getUpdateDate() {
 		return updateDate;
 	}
 
 
-	public void setUpdateDate(String updateDate) {
-		this.updateDate = updateDate;
+	public void setUpdateDate(LocalDateTime localDateTime) {
+		this.updateDate = localDateTime;
 	}
 
 
-	@Column
-	private String adminName;
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public String getEmpid() {
+		return empid;
+	}
+
+
+	public void setEmpid(String empid) {
+		this.empid = empid;
+	}
+
+
 	
 	
-    @Column
-	private String startDate;
-	 
-    @Column
-	private String endDate;
-    
-    
-    @Column
-    private String updateDate;
 }

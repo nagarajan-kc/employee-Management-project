@@ -1,5 +1,6 @@
 package com.nic.employee.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nic.employee.Entity.Employee;
+import com.nic.employee.Entity.HistoryOfEmployee;
 import com.nic.employee.Entity.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.nic.employee.Repository.DesignationRepository;
+import com.nic.employee.Repository.EmployeeHistoryRepository;
 import com.nic.employee.Repository.EmployeeRepository;
 import com.nic.employee.Repository.UserRepository;
 import com.nic.employee.Service.EmployeeService;
@@ -37,6 +40,9 @@ public class EmployeeController {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private EmployeeHistoryRepository employeeHistoryRepository;
     
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -113,6 +119,7 @@ public class EmployeeController {
         model.addAttribute("designation", designation);
         model.addAttribute("employee", employee);
         model.addAttribute(designation);
+
         return "newEmployee";
  }
 
@@ -120,12 +127,26 @@ public class EmployeeController {
     public String saveEmployee(@Valid @ModelAttribute("employee") Employee employee,BindingResult bindingResult,Model model) {
     	
     	if (bindingResult.hasErrors()) {  
+
     		  List<Designation> designation = employeeService.findAll();
     	        model.addAttribute("designation", designation);
     	       
              return "newEmployee";
          }
-       employeeService.saveEmployee(employee);
+    	  employee.setCreatedAt(LocalDateTime.now());    
+          employeeService.saveEmployee(employee);
+    	 HistoryOfEmployee employeeHistorys = new HistoryOfEmployee();
+    	
+         employeeHistorys.setEmpid(employee.getId());
+         employeeHistorys.setName(employee.getName());
+         employeeHistorys.setAdminName(employee.getAdminname());
+         employeeHistorys.setEndDate(employee.getEnddate());
+         employeeHistorys.setStartDate(employee.getStartDate());
+         employeeHistorys.setUpdateDate(employee.getCreatedAt());
+         employeeHistorys.setDesignation(employee.getDesignation());
+//         employeeHistorys.setEmpid(employeeHistorys.getEmpid());
+         employeeHistoryRepository.save(employeeHistorys);
+       
        return "redirect:/Employee";
  } 
 

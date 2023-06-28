@@ -52,6 +52,16 @@
 
             <!-- <input type="text" th:field="*{designation}" class="form-control mb-4 col-4" > -->
             <br>
+             <label for="Employee startDate" required >Employee JoingDate:</label>
+            <input type="date" th:field="*{startDate}" id="startDate" name="startDate"   class="form-control mb-4 col-4" required/>
+                      <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="alert-danger d-flex align-items-center" style="width: 70%;" >Date  Error</p>
+            
+      <br>
+       <label for="Employee endDate" required >Employee EndDate:</label>
+            <input type="date" th:field="*{enddate}" id="enddate" name="enddate"   class="form-control mb-4 col-4" required/>
+                      <p th:if="${#fields.hasErrors('enddate')}" th:errors="*{enddate}" class="alert-danger d-flex align-items-center" style="width: 70%;" >Date  Error</p>
+            <br>
+            
             <label for="Designation">Designation:</label>
             
         <select th:field="*{designation}" id="designation" class="form-control mb-4 col-4" required>
@@ -60,11 +70,14 @@
     </select>
                           <p th:if="${#fields.hasErrors('designation')}" th:errors="*{designation}" class="alert alert-danger" style="width: 40%;">Designation Error</p>
 
-        <br/>   
+        <br>   
             
             <label for="Salary">Salary:</label>
             
             <input th:var="salaryType" th:field="*{salary}" id="salary" class="form-control mb-4 col-4" required>
+            
+            <label for="Admin Name">Admin Name:</label>
+            <input type="text" th:field="*{adminname}" pattern="[a-zA-Z. ]+" class="form-control mb-4 col-4" required>
 
             <button type="submit" class="btn btn-info col-2" style="background-color:green;color:white;"> Update Employee</button>
         </form>
